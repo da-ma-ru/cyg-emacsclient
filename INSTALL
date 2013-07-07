@@ -1,0 +1,17 @@
+Installation
+============
+
+Just invoke the followings.
+
+  make
+  make install
+
+where "make install" installs the binary into /bin and make a symbolic
+link from "/cygdrive/c/Documents and Settings/$USER/SendTo/Emacs" to
+the binary.
+
+The command internally invokes emacsclient so that you should add the
+following line in your .emacs.el.
+
+  (server-start)
+
