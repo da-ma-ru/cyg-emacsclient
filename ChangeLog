@@ -1,2 +1,6 @@
+2013-07-07  Koichi Otsuka  <otsuka@gmail.com>
+
+	* Modify: 'cygwin_conv_to_full_posix_path' to 'cygwin_conv_path'
+
 2005-05-06    <nakamaru@gmail.com>
 	* Called current version 1.00.

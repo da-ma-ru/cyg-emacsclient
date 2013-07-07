@@ -30,13 +30,25 @@ int main(
 	int argc,
 	char *argv[])
 {
-	char path[1024];
-	char cmd[1024];
+	char *posix;
+	char *cbuf;
+	ssize_t size;
 	int i;
+	char emacsclient_cmd[] = "/bin/emacsclient -n '%s'";
+
 	for (i = 1; i < argc; i++) {
-		cygwin_conv_to_full_posix_path(argv[i], path);
-		sprintf(cmd, "/bin/emacsclient -n '%s'", path);
-		system(cmd);
+	  size = cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], NULL, 0);
+	  if (size > 0) {
+		posix = (char *)malloc(size);
+		cbuf = (char *)malloc(size + sizeof(emacsclient_cmd));
+		if (cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], posix, size) == 0) {
+		  sprintf(cbuf, emacsclient_cmd, posix);
+		  system(cbuf);
+		  // printf("%s\n", cbuf);
+		}
+		free(posix);
+		free(cbuf);
+	  }
 	}
 	return 0;
 }

@@ -26,10 +26,17 @@ $(TARGET): main.c resource.rc resource.ico
 	gcc -O2 -Wall -mwindows *.o -o $(TARGET) -Wl,--subsystem,windows
 
 install: $(TARGET)
-	install -s $(TARGET) /bin
+	install $(TARGET) /bin
+	mkshortcut --desc="Emacs" \
+	  --arguments="bash -lc 'emacs -g 110x40'" \
+	  --name="Cygwin Emacs" \
+	  --workingdir="$$HOME" \
+	  --icon=/bin/emacs.ico \
+	  /bin/run
+	mkshortcut --desc="Emacs Client" --name="Emacs" /bin/$(TARGET)
 	path=`cygpath -u "$$USERPROFILE/SendTo/"`; \
 	rm -f "$$path/Emacs" "$$path/Emacs.lnk"; \
-	ln -s /bin/cyg-emacsclient.exe "$$path/Emacs"
+	cp Emacs.lnk "$$path"
 
 clean:
-	rm -f *.o *.exe *~
+	rm -f *.o *.exe *~ *.lnk
