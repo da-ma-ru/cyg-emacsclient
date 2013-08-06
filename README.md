@@ -8,3 +8,9 @@ directory, you can send files to cygwin emacs from Windows Explorer.
 
 Note: The resource.ico was converted from gnu.xpm originally bundled
 with emacs.
+
+To Do
+=====
+
+1. Emacs (server)が立ち上がっていないときは、自動的に立ち上げるようにする
+2. cygwinのパッケージとしてインストールできるようにする

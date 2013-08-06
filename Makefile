@@ -26,9 +26,9 @@ $(TARGET): main.c resource.rc resource.ico
 	gcc -O2 -Wall -mwindows *.o -o $(TARGET) -Wl,--subsystem,windows
 
 install: $(TARGET)
-	install $(TARGET) /bin
+	install -s $(TARGET) /bin
 	mkshortcut --desc="Emacs" \
-	  --arguments="bash -lc 'emacs -g 110x40'" \
+	  --arguments="bash -lc emacs" \
 	  --name="Cygwin Emacs" \
 	  --workingdir="$$HOME" \
 	  --icon=/bin/emacs.ico \

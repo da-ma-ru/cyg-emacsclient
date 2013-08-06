@@ -1,6 +1,14 @@
-2013-07-07  Koichi Otsuka  <otsuka@gmail.com>
+2013-08-06  Koichi Otsuka  <otsuka512@gmail.com>
 
-	* Modify: 'cygwin_conv_to_full_posix_path' to 'cygwin_conv_path'
+	* Makefile (install): インストール時に strip するようにした。
+	  ターゲットへのインストール時には bin-utils パッケージにある strip コマンドが必要。
+	  add strip option. require 'strip' command in bin-utils package when install target.
+	* Makefile (install): ウィンドウの大きさの指定を .emacs でやるようにした。
+	  remove geometry argument, move geometry setting to .emacs.
+
+2013-07-07  Koichi Otsuka  <otsuka512@gmail.com>
+
+	* main.c (main): 'cygwin_conv_to_full_posix_path' to 'cygwin_conv_path'
 
 2005-05-06    <nakamaru@gmail.com>
 	* Called current version 1.00.
