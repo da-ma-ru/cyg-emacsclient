@@ -37,6 +37,10 @@ int main(
 	char emacsclient_cmd[] = "/bin/emacsclient -n '%s'";
 
 	for (i = 1; i < argc; i++) {
+	  if (*argv[i] == '"' && *(argv[i] + strlen(argv[i]) - 1) == '"') {
+		argv[i]++;
+		argv[i][strlen(argv[i]) - 1] = '\0';
+	  }
 	  size = cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], NULL, 0);
 	  if (size > 0) {
 		posix = (char *)malloc(size);
