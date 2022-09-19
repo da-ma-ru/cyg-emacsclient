@@ -67,6 +67,9 @@ int main(
 		exit(EXIT_ON_CONVERSION_FAILURE);
 	  }
 	  posix_args[i+1] = (char *)malloc(size);
+	  if (posic_args[i+1] == NULL) {
+		exit(EXIT_ON_MEMORY_ALLOCATION_ERROR);
+	  }
 	  if (cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], posix_args[i+1], size) != 0) {
 		exit(EXIT_ON_CONVERSION_FAILURE);
 	  }
