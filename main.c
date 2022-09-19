@@ -51,7 +51,7 @@ int main(
 
 	/* Set arg-0 which is command path */
 	posix_args[0] = EMACSCLIENT_COMMAND;
-    /* Set arg-1 which is no wait option */
+	/* Set arg-1 which is no wait option */
 	posix_args[1] = "-n";
 	/* Set TERMINAL NULL */
 	posix_args[argc + 1] = NULL;
@@ -71,5 +71,5 @@ int main(
 		exit(EXIT_ON_CONVERSION_FAILURE);
 	  }
 	}
-    execv(EMACSCLIENT_COMMAND, posix_args);
+	execv(EMACSCLIENT_COMMAND, posix_args);
 }
