@@ -1,3 +1,8 @@
+2022-09-14  da-ma-ru <https://github.com/da-ma-ru>
+
+	* README.md: add comment about forking.
+	* main.c (main): remove first and last double quotes in path.
+
 2013-08-06  Koichi Otsuka  <otsuka512@gmail.com>
 
 	* Makefile (install): インストール時に strip するようにした。
