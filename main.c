@@ -25,34 +25,51 @@
 #include <stdlib.h>
 #include <sys/unistd.h>
 #include <sys/cygwin.h>
+#include <unistd.h>
+
+/* CONSTS  */
+#define EMACSCLIENT_COMMAND "/bin/emacsclient"
+
+/* ERROR CODE DEFINE */
+#define EXIT_ON_MEMORY_ALLOCATION_ERROR 1
+#define EXIT_ON_CONVERSION_FAILURE 2
 
 int main(
 	int argc,
 	char *argv[])
 {
-	char *posix;
-	char *cbuf;
+	/* argv pointer for execv() */
+	char **posix_args;
 	ssize_t size;
 	int i;
-	char emacsclient_cmd[] = "/bin/emacsclient -n '%s'";
+
+	/* posic_args additionally included '-n' option and terminal NULL */
+	posix_args = (char **)malloc(argc + 2);
+	if (posix_args == NULL) {
+	  exit(EXIT_ON_MEMORY_ALLOCATION_ERROR);
+	}
+
+	/* Set arg-0 which is command path */
+	posix_args[0] = EMACSCLIENT_COMMAND;
+    /* Set arg-1 which is no wait option */
+	posix_args[1] = "-n";
+	/* Set TERMINAL NULL */
+	posix_args[argc + 1] = NULL;
 
 	for (i = 1; i < argc; i++) {
+	  /* Remove double quotes */
 	  if (*argv[i] == '"' && *(argv[i] + strlen(argv[i]) - 1) == '"') {
 		argv[i]++;
 		argv[i][strlen(argv[i]) - 1] = '\0';
 	  }
 	  size = cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], NULL, 0);
-	  if (size > 0) {
-		posix = (char *)malloc(size);
-		cbuf = (char *)malloc(size + sizeof(emacsclient_cmd));
-		if (cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], posix, size) == 0) {
-		  sprintf(cbuf, emacsclient_cmd, posix);
-		  system(cbuf);
-		  // printf("%s\n", cbuf);
-		}
-		free(posix);
-		free(cbuf);
+	  if (size <=0) {
+		exit(EXIT_ON_CONVERSION_FAILURE);
+	  }
+	  posix_args[i+1] = (char *)malloc(size);
+	  if (cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], posix_args[i+1], size) != 0) {
+		exit(EXIT_ON_CONVERSION_FAILURE);
 	  }
 	}
-	return 0;
+    execv(EMACSCLIENT_COMMAND, posix_args);
 }

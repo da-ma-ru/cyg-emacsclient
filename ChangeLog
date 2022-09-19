@@ -1,3 +1,7 @@
+2022-09-19  da-ma-ru <https://github.com/da-ma-ru>
+
+	* main.c (main): call emacsclient with execv().
+
 2022-09-14  da-ma-ru <https://github.com/da-ma-ru>
 
 	* README.md: add comment about forking.
