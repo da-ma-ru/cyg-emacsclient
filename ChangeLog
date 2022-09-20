@@ -1,3 +1,7 @@
+2022-09-21  da-ma-ru <https://github.com/da-ma-ru>
+
+	* main.c (main): use strdup() for asigning except for porsix_path.
+
 2022-09-19  da-ma-ru <https://github.com/da-ma-ru>
 
 	* main.c (main): call emacsclient with execv().
