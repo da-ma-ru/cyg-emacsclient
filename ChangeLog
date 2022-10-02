@@ -1,3 +1,8 @@
+2022-10-01  da-ma-ru <https://github.com/da-ma-ru>
+
+	* main.c (exit_with_messagebox): implement exit_with_messagebox().
+	* main.c (main) replace exit() to exit_with_messagebox().
+
 2022-09-21  da-ma-ru <https://github.com/da-ma-ru>
 
 	* main.c (main): use strdup() for asigning except for porsix_path.
