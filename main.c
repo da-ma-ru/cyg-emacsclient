@@ -33,6 +33,9 @@
 /* ERROR CODE DEFINE */
 #define EXIT_ON_MEMORY_ALLOCATION_ERROR 1
 #define EXIT_ON_CONVERSION_FAILURE 2
+#define EXIT_ON_EXECUSION_ERROR 3
+
+void exit_with_messagebox(int status);
 
 int main(
 	int argc,
@@ -64,15 +67,38 @@ int main(
 	  }
 	  size = cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], NULL, 0);
 	  if (size <=0) {
-		exit(EXIT_ON_CONVERSION_FAILURE);
+		exit_with_messagebox(EXIT_ON_CONVERSION_FAILURE);
 	  }
 	  posix_args[i+1] = (char *)malloc(size);
 	  if (posix_args[i+1] == NULL) {
-		exit(EXIT_ON_MEMORY_ALLOCATION_ERROR);
+		exit_with_messagebox(EXIT_ON_MEMORY_ALLOCATION_ERROR);
 	  }
 	  if (cygwin_conv_path(CCP_WIN_A_TO_POSIX, argv[i], posix_args[i+1], size) != 0) {
-		exit(EXIT_ON_CONVERSION_FAILURE);
+		exit_with_messagebox(EXIT_ON_CONVERSION_FAILURE);
 	  }
 	}
-	return execv(*posix_args, posix_args);
+	execv(*posix_args, posix_args);
+
+	/* Called if execv failed. */
+	exit_with_messagebox(EXIT_ON_EXECUSION_ERROR);
+}
+
+void exit_with_messagebox(
+	int status)
+{
+	switch (status) {
+	case EXIT_ON_MEMORY_ALLOCATION_ERROR:
+	  MessageBox(NULL, TEXT("Memory allocation is failed."), TEXT("OK"), MB_OK|MB_ICONERROR);
+      break;
+    case EXIT_ON_CONVERSION_FAILURE:
+	  MessageBox(NULL, TEXT("Converting to cygwin path is failed."), TEXT("OK"), MB_OK|MB_ICONERROR);
+	  break;
+	case EXIT_ON_EXECUSION_ERROR:
+	  MessageBox(NULL, TEXT("Starting emacsclient is failed."), TEXT("OK"), MB_OK|MB_ICONERROR);
+	  break;
+	default:
+	  MessageBox(NULL, TEXT("Unknown error happened."), TEXT("OK"), MB_OK|MB_ICONERROR);
+	  break;
+	}
+	exit(status);
 }
